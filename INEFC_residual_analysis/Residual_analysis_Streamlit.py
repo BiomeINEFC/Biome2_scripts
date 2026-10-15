@@ -143,8 +143,7 @@ if uploaded_file is not None:
         template='plotly_white'
     )
     
-    fig.show()
-
+    st.plotly_chart(fig, use_container_width=True)
 
 
     # st.plotly_chart(fig, use_container_width=True)
