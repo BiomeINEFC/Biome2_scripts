@@ -54,6 +54,7 @@ if uploaded_file is not None:
     ##################################
     ########CONSTANTS#################
     freqs = np.arange (lowcut, highcut, increments)
+    st.markdown(freqs)
     residual_var = np.zeros(len(freqs))
 
     senyal = pd.read_excel(uploaded_file)
