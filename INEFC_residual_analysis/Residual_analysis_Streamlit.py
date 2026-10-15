@@ -14,7 +14,7 @@ from scipy.signal import periodogram
 
 ###################################
 ###############MAIN##################
-st.title("EMG FATIGUE ANALYSIS APP")
+st.title("RESIDUAL ANALYSIS APP")
 
 st.markdown("""Aquesta APP serveig per fer l'anàlisi de residus d'una senyal. """)
 st.markdown("""Indica la freqüència de mostreig de les dades i les freqüències entre les que vols realitzar l'anàlisi de residus i quin increment de freqüència vols utilitzar.""")
