@@ -37,8 +37,8 @@ highcut = st.number_input(
 increments = st.number_input(
     "Increment entre freqüèncias - habitualment 1Hz",
     min_value = 0.0001,
-    max_value = 20,
-    value = 1)
+    max_value = 20.0,
+    value = 1.0)
 
 
 results = []
