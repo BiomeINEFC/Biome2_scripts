@@ -41,7 +41,7 @@ def data_filter_butterworth_emg (data_frame, lowcut, highcut, data_freq, filter_
 
 ###################################
 ###############MAIN##################
-st.title("Filttering APP")
+st.title("Filtering APP")
 
 st.markdown("""Aquesta APP serveig dur a terme filtratge de senyals""")
 st.markdown("""Escull el tipus de filtres a realitzar.""")
