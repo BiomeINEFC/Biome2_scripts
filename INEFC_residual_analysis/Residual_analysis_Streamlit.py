@@ -55,9 +55,10 @@ if uploaded_file is not None:
     ########CONSTANTS#################
     freqs = np.arange (lowcut, highcut, increments)
     st.markdown(freqs)
+    
     residual_var = np.zeros(len(freqs))
 
-    senyal = pd.read_excel(uploaded_file)
+    senyal = pd.read_excel(uploaded_file)['Data']
     for i, freq in enumerate(freqs):
     
         Wn = freq / (Fs / 2)
@@ -81,7 +82,10 @@ if uploaded_file is not None:
     valid = ~np.isnan(residual_var)
     freqs_valid = freqs[valid]
     residual_var = residual_var[valid]
-    
+    st.write("len(freqs):", len(freqs))
+    st.write("len(residual_var):", len(residual_var))
+    st.write("NaNs:", np.sum(np.isnan(residual_var)))
+    st.write("Valids:", np.sum(~np.isnan(residual_var)))
     # ---------------------------
     # METODO DEL CODO
     # ---------------------------
