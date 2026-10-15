@@ -8,65 +8,6 @@ from scipy.signal import butter, lfilter, filtfilt
 from scipy.signal import freqz
 from scipy.signal import periodogram
 
-#FUNCTIONS#
-def butter_bandpass(lowcut, highcut, fs, order, filter_type):
-    nyq = 0.5 * fs
-    low = lowcut / nyq
-    high = highcut / nyq
-    if filter_type == 'band':
-        b, a = butter(order, [low, high], btype='bandpass')
-    elif filter_type == 'low':
-        b, a = butter(order, low, btype='lowpass')
-    return b, a
-
-def butter_bandpass_filter(data, lowcut, highcut, fs, order, filter_type):
-    b, a = butter_bandpass(lowcut, highcut, fs, order, filter_type)
-    y = filtfilt(b, a, data)
-    plt.figure()
-    plt.plot(y)
-    return y
-
-def data_filter_butterworth_emg (data_frame, lowcut, highcut, data_freq, filter_order):
-    filt_data_frame = butter_bandpass_filter(data_frame.dropna(), lowcut, highcut, data_freq, filter_order, 'band')                  
-    return filt_data_frame
-
-def RMS_calculation (EMG_signal, computation_onsets, computation_offsets):
-    muscle_RMS = []
-    analysis_window = (computation_offsets[0] - computation_onsets[0])
-    for i in range(0,len(computation_onsets)):
-        muscle_RMS.append ((np.sum(np.square(EMG_signal[computation_onsets[i]:computation_offsets[i]]))/analysis_window)**0.5)
-    return pd.DataFrame({'x': ['0-20%', '20-40%', '40-60%', '60-80%', '80-100%'], 'y': muscle_RMS})
-def mean_median_frequency_computation (EMG_onsets, EMG_offsets, data_frame_nAbs, muscle):
-    mean_freq_data = list()
-    median_freq_data = list()
-    number_of_plots = len(EMG_onsets)+2
-    number_of_rows = 30
-    number_of_cols = 3
-    fig, ax = plt.subplots(number_of_rows, number_of_cols)
-    col_num = 0
-    row_num = 0
-    for frame in range(0, len(EMG_onsets)):
-        onset = EMG_onsets[frame]
-        offset = EMG_offsets[frame]
-        sampling_rate = 1000
-        signal= data_frame_nAbs[onset:offset]
-        freqs, power = periodogram(signal, fs=sampling_rate, window='hamming')
-        ax[row_num][col_num].plot(freqs, power)
-        ax[row_num][col_num].set_title('PSD - Stage: ' + str(frame*20) +' to '+str(frame*20+20) +' - '+muscle)
-        recur_sum_power = list ()
-        for frame in range(0, len(freqs)):
-            if recur_sum_power == []:
-                recur_sum_power.append(power[frame])
-            else:
-                recur_sum_power.append(recur_sum_power[-1]+power[frame])
-        median_freq_data.append(list(compress(freqs, recur_sum_power>=recur_sum_power[-1]/2))[0]) 
-        mean_freq_data.append(np.sum(freqs*power)/np.sum(power))
-        row_num = row_num + 1
-        if row_num >29:
-            row_num = 0
-            col_num = col_num + 1
-    return pd.DataFrame({'x': ['0-20%', '20-40%', '40-60%', '60-80%', '80-100%'], 'y':mean_freq_data}), pd.DataFrame({'x': ['0-20%', '20-40%', '40-60%', '60-80%', '80-100%'], 'y':median_freq_data})
-
 
 
 
@@ -76,7 +17,6 @@ def mean_median_frequency_computation (EMG_onsets, EMG_offsets, data_frame_nAbs,
 st.title("EMG FATIGUE ANALYSIS APP")
 
 st.markdown("""Aquesta APP serveig per fer l'anàlisi de residus d'una senyal. """)
-st.mark
 st.markdown("""Indica la freqüència de mostreig de les dades i les freqüències entre les que vols realitzar l'anàlisi de residus i quin increment de freqüència vols utilitzar.""")
 
 Fs = st.number_input(
