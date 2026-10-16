@@ -111,12 +111,12 @@ if uploaded_file is not None:
     
     raw_EMG_data_frame = pd.read_excel(uploaded_file) 
     #FILTRATGE DADES
-    filt_data = data_filter_butterworth_emg(raw_EMG_data_frame['chan1'], lowcut, highcut, data_freq, filter_order)
+    filt_data = data_filter_butterworth_emg(raw_EMG_data_frame['Chan_1'], lowcut, highcut, data_freq, filter_order)
     
     # Crear figura
     fig = px.line(
         raw_EMG_data_frame,
-        y='chan1',
+        y='Chan_1',
         title='Senyal EMG'
     )
 
@@ -155,7 +155,7 @@ if uploaded_file is not None:
     
     # #Computation of EMG Frequency variables for each contraction   
     RMS_df = RMS_calculation (filt_data, onsets, offsets)
-    MNF_df, MDF_df = mean_median_frequency_computation (onsets, offsets, filt_data, 'chan1')
+    MNF_df, MDF_df = mean_median_frequency_computation (onsets, offsets, filt_data, 'Chan_1')
     
     # Crear figura
     fig2 = px.line(
